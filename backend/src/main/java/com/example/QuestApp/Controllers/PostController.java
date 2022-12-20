@@ -31,7 +31,7 @@ public class PostController {
     }
 
     @PostMapping
-    public Post createPost(@RequestBody PostCreateRequest newPost){
+    public Post savePost(@RequestBody PostCreateRequest newPost){
         return postService.savePost(newPost);
     }
 
