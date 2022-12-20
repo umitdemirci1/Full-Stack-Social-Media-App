@@ -1,55 +1,43 @@
 package com.example.QuestApp.Controllers;
 
 import com.example.QuestApp.Entities.User;
-import com.example.QuestApp.Repos.UserRepository;
+import com.example.QuestApp.Services.UserService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
 public class UserController {
 
-    private UserRepository userRepository;
+    private UserService userService;
 
-    public UserController(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping
     public List<User> getAllUsers() {
-        return userRepository.findAll();
+        return userService.getAllUsers();
     }
 
     @PostMapping
     public User createUser(@RequestBody User newUser) {
-        return userRepository.save(newUser);
+        return userService.saveUser(newUser);
     }
 
     @GetMapping("/{userId}")
     public User getOneUser(@PathVariable Long userId) {
-        //Custom exception
-        return userRepository.findById(userId).orElse(null);
+        return userService.findUserById(userId);
     }
 
     @PutMapping("/{userId}")
     public User updateOneUser(@PathVariable Long userId, @RequestBody User newUser) {
-        Optional<User> user = userRepository.findById(userId);
-        if (user.isPresent()) {
-            User foundUser = user.get();
-            foundUser.setUserName(newUser.getUserName());
-            foundUser.setPassword(newUser.getPassword());
-            userRepository.save(foundUser);
-            return foundUser;
-        } else {
-            //custom exception
-            return null;
-        }
+        return userService.updateUser(userId, newUser);
     }
 
     @DeleteMapping("/{userId}")
-    public void deleteOneUser(@PathVariable Long userId){
-        userRepository.deleteById(userId);
+    public void deleteOneUser(@PathVariable Long userId) {
+        userService.deleteUserById(userId);
     }
 }
