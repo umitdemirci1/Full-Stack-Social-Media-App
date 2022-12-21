@@ -17,8 +17,10 @@ public class LikeService {
     private UserService userService;
     private PostService postService;
 
-    public LikeService(LikeRepository likeRepository) {
+    public LikeService(LikeRepository likeRepository, UserService userService, PostService postService) {
         this.likeRepository = likeRepository;
+        this.userService = userService;
+        this.postService = postService;
     }
 
     public List<Like> getLikes(Optional<Long> userId, Optional<Long> postId) {
@@ -34,7 +36,6 @@ public class LikeService {
     public Like getLike(Long likeId){
         return likeRepository.findById(likeId).orElse(null);
     }
-
 
     public Like saveLike(LikeCreateRequest newLike) {
         User user = userService.findUserById(newLike.getUserId());
