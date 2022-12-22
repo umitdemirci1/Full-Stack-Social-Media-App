@@ -40,7 +40,6 @@ const Home = () => {
                 {posts.map((post) => (
                     <Post title={post.title} text={post.text} key={post.id}></Post>
                 ))}
-
             </>
         );
     }
