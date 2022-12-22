@@ -10,6 +10,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/likes")
+@CrossOrigin(origins = "http://localhost:3000")
 public class LikeController {
 
     private LikeService likeService;
