@@ -11,6 +11,8 @@ import Typography from '@mui/material/Typography';
 import { red } from '@mui/material/colors';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { BiCommentDetail } from "react-icons/bi";
+import User from '../User/User';
+import { Link } from 'react-router-dom';
 
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
@@ -22,13 +24,17 @@ const ExpandMore = styled((props) => {
     }),
 }));
 
-const Post = ({ text, title }) => {
+const Post = ({ text, title, userId, userName }) => {
 
-    const [expanded, setExpanded] = React.useState(false);
-
+    const [expanded, setExpanded] = React.useState(false)
+    const [like, setLike] = React.useState(false)
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
+
+    const handleLikeClick = () => {
+        setLike(!like)
+    }
 
     return (
         <>
@@ -37,9 +43,11 @@ const Post = ({ text, title }) => {
                     <Card className={"w-[800px] mb-4 border border-gray-300"} sx={{ maxWidth: 800 }}>
                         <CardHeader
                             avatar={
-                                <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                                    R
-                                </Avatar>
+                                <Link to={{ pathname: '/users/' + userId }} element={<User />}>
+                                    <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+                                        {userName.charAt(0).toUpperCase()}
+                                    </Avatar>
+                                </Link>
                             }
                             title={title}
                         />
@@ -50,7 +58,10 @@ const Post = ({ text, title }) => {
                         </CardContent>
                         <CardActions disableSpacing>
                             <IconButton aria-label="add to favorites">
-                                <FavoriteIcon />
+                                <FavoriteIcon
+                                    className={like === true ? 'text-red-600' : 'null'}
+                                    onClick={handleLikeClick} 
+                                />
                             </IconButton>
                             <IconButton aria-label="share">
                             </IconButton>
@@ -63,7 +74,6 @@ const Post = ({ text, title }) => {
                                 <BiCommentDetail />
                             </ExpandMore>
                         </CardActions>
-
                         <Collapse in={expanded} timeout="auto" unmountOnExit>
                             <CardContent>
                                 Hello

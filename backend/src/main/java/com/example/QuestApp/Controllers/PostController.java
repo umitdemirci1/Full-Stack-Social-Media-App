@@ -4,6 +4,7 @@ import com.example.QuestApp.Entities.Post;
 import com.example.QuestApp.Entities.User;
 import com.example.QuestApp.Requests.PostCreateRequest;
 import com.example.QuestApp.Requests.PostUpdateRequest;
+import com.example.QuestApp.Responses.PostResponse;
 import com.example.QuestApp.Services.PostService;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +23,7 @@ public class PostController {
     }
 
     @GetMapping
-    public List<Post> getAllPosts(@RequestParam Optional<User> userId){
+    public List<PostResponse> getAllPosts(@RequestParam Optional<User> userId){
         return postService.getAllPosts(userId);
     }
 

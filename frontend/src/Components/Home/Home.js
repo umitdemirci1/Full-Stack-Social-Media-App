@@ -38,7 +38,12 @@ const Home = () => {
         return (
             <>
                 {posts.map((post) => (
-                    <Post title={post.title} text={post.text} key={post.id}></Post>
+                    <Post 
+                    title={post.title} 
+                    text={post.text} 
+                    key={post.id} 
+                    userId={post.userId}
+                    userName={post.userName}></Post>
                 ))}
             </>
         );

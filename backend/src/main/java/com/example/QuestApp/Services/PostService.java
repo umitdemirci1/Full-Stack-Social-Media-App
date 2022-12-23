@@ -5,10 +5,12 @@ import com.example.QuestApp.Entities.User;
 import com.example.QuestApp.Repos.PostRepository;
 import com.example.QuestApp.Requests.PostCreateRequest;
 import com.example.QuestApp.Requests.PostUpdateRequest;
+import com.example.QuestApp.Responses.PostResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PostService {
@@ -21,12 +23,14 @@ public class PostService {
         this.userService = userService;
     }
 
-    public List<Post> getAllPosts(Optional<User> userId) {
+    public List<PostResponse> getAllPosts(Optional<User> userId) {
+        List<Post> list;
         if (userId.isPresent()) {
-            return postRepository.findByUserId(userId);
+            list = postRepository.findByUserId(userId);
         } else {
-            return postRepository.findAll();
+            list = postRepository.findAll();
         }
+        return list.stream().map(p -> new PostResponse(p)).collect(Collectors.toList());
     }
 
     public Post savePost(PostCreateRequest newPost) {
