@@ -1,5 +1,6 @@
 import Post from "../Post/Post"
 import { useEffect, useState } from "react";
+import PostForm from "../Post/Postform";
 
 const Home = () => {
     const [error, setError] = useState(null);
@@ -37,6 +38,7 @@ const Home = () => {
     } else {
         return (
             <>
+                <PostForm userId={"3"} userName={"A"}></PostForm>
                 {posts.map((post) => (
                     <Post 
                     title={post.title} 

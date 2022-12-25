@@ -57,10 +57,10 @@ const Post = ({ text, title, userId, userName }) => {
                             </Typography>
                         </CardContent>
                         <CardActions disableSpacing>
-                            <IconButton aria-label="add to favorites">
+                            <IconButton aria-label="add to favorites" onClick={handleLikeClick} >
                                 <FavoriteIcon
                                     className={like === true ? 'text-red-600' : 'null'}
-                                    onClick={handleLikeClick} 
+                                    
                                 />
                             </IconButton>
                             <IconButton aria-label="share">
