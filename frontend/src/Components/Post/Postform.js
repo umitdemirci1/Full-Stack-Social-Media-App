@@ -11,7 +11,39 @@ import { Link } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 
-const PostForm = ({ userId, userName }) => {
+const PostForm = ({ userId, userName, refreshPost }) => {
+
+    const [text, setText] = React.useState()
+    const [title, setTitle] = React.useState()
+
+    const savePost = () => {
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                title: title,
+                text: text,
+                userId: userId
+            })
+        }
+
+        fetch('http://localhost:8080/posts', requestOptions)
+            .then((response) => response.json())
+            .catch(err => console.log(err))
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        savePost()
+        refreshPost()
+    }
+    const handleText = (e) => {
+        setText(e.target.value)
+    }
+    const handleTitle = (e) => {
+        setTitle(e.target.value)
+    }
+
     return (
         <>
             <div className='flex justify-center'>
@@ -31,28 +63,35 @@ const PostForm = ({ userId, userName }) => {
                                 label="Title"
                                 placeholder='Type your title here:'
                                 className='w-[697px]'
+                                inputProps={{ maxLength: 120 }}
+                                onChange={handleTitle}
                             />
                         }
                     />
-                    <CardContent>
-                            {<Box
-                                component="form"
-                                sx={{
-                                    '& .MuiTextField-root': { m: 1, width: '745px' },
-                                }}
-                                noValidate
-                                autoComplete="off"
-                            >
-                                <div>
+                    <CardContent className='relative'>
+                        {<Box
+                            component="form"
+                            sx={{
+                                '& .MuiTextField-root': { m: 1, width: '745px' },
+                            }}
+                            noValidate
+                            autoComplete="off"
+                        >
+                            <div>
                                 <TextField
-                                        id="outlined-multiline-flexible"
-                                        label="Content"
-                                        multiline
-                                        maxRows={6}
-                                        placeholder="Type your content here:"
-                                    />
-                                </div>
-                            </Box>}   
+                                    id="outlined-multiline-flexible"
+                                    label="Content"
+                                    multiline
+                                    maxRows={6}
+                                    placeholder="Type your content here:"
+                                    onChange={handleText}
+                                />
+                            </div>
+                        </Box>}
+                        <button className='absolute top-30 right-7 bg-blue-500 border border-blue-600 rounded 
+                        hover:bg-blue-600 transition-colors p-1 px-3 text-white'
+                            onClick={handleSubmit}
+                        >Post</button>
                     </CardContent>
                     <CardActions disableSpacing>
                         <IconButton aria-label="add to favorites">

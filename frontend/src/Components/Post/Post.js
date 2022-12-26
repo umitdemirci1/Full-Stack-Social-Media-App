@@ -81,7 +81,6 @@ const Post = ({ text, title, userId, userName }) => {
                         </Collapse>
                     </Card>
                 </div>
-
             </ul>
         </>
     )

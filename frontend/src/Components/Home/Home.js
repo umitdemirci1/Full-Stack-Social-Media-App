@@ -7,20 +7,24 @@ const Home = () => {
     const [isLoaded, setIsLoaded] = useState(false)
     const [posts, setPosts] = useState([])
 
-    useEffect(() => {
+    const refreshPost = () => {
         fetch("http://localhost:8080/posts")
-            .then(res => res.json())
-            .then(
-                (result) => {
-                    setIsLoaded(true)
-                    setPosts(result)
-                },
-                (error) => {
-                    setIsLoaded(true)
-                    setError(error)
-                }
-            )
-    }, [])
+        .then(res => res.json())
+        .then(
+            (result) => {
+                setIsLoaded(true)
+                setPosts(result)
+            },
+            (error) => {
+                setIsLoaded(true)
+                setError(error)
+            }
+        )
+    }
+
+    useEffect(() => {
+       refreshPost()
+    }, [posts])
 
     if (error) {
         return (
@@ -38,14 +42,15 @@ const Home = () => {
     } else {
         return (
             <>
-                <PostForm userId={"3"} userName={"A"}></PostForm>
+                <PostForm userId={"1"} userName={"A"}></PostForm>
                 {posts.map((post) => (
                     <Post 
                     title={post.title} 
                     text={post.text} 
                     key={post.id} 
                     userId={post.userId}
-                    userName={post.userName}></Post>
+                    userName={post.userName}
+                    ></Post>
                 ))}
             </>
         );

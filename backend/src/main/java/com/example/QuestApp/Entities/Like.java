@@ -11,8 +11,7 @@ import org.hibernate.annotations.OnDeleteAction;
 @Data
 public class Like {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "Like_SEQ")
-    @SequenceGenerator(name = "Like_SEQ")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 

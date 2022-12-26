@@ -1,6 +1,5 @@
 package com.example.QuestApp.Entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.OnDelete;
@@ -11,7 +10,7 @@ import org.hibernate.annotations.OnDeleteAction;
 @Data
 public class Post {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "Post_SEQ")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @SequenceGenerator(name = "Post_SEQ")
     @Column(name = "id", nullable = false)
     private Long id;
