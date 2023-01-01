@@ -10,11 +10,18 @@ import User from '../User/User';
 import { Link } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
+import { Snackbar } from '@mui/material';
+import MuiAlert from '@mui/material/Alert';
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const PostForm = ({ userId, userName, refreshPost }) => {
 
-    const [text, setText] = React.useState()
-    const [title, setTitle] = React.useState()
+    const [text, setText] = React.useState("")
+    const [title, setTitle] = React.useState("")
+    const [isSent, setIsSent] = React.useState(false)
 
     const savePost = () => {
         const requestOptions = {
@@ -36,16 +43,35 @@ const PostForm = ({ userId, userName, refreshPost }) => {
         e.preventDefault()
         savePost()
         refreshPost()
+
+        setIsSent(true)
+        setText("")
+        setTitle("")
     }
     const handleText = (e) => {
         setText(e.target.value)
+        setIsSent(false)
     }
     const handleTitle = (e) => {
         setTitle(e.target.value)
+        setIsSent(false)
+    }
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return
+        }
+        setIsSent(true)
     }
 
     return (
         <>
+            <Snackbar open={isSent} autoHideDuration={1000} onClose={handleClose}>
+                <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+                    You successfully sent your post!
+                </Alert>
+            </Snackbar>
+
             <div className='flex justify-center'>
                 <Card className={"w-[800px] mb-4 border border-gray-300"} sx={{ maxWidth: 800 }}>
                     <CardHeader
@@ -65,6 +91,7 @@ const PostForm = ({ userId, userName, refreshPost }) => {
                                 className='w-[697px]'
                                 inputProps={{ maxLength: 120 }}
                                 onChange={handleTitle}
+                                value={title}
                             />
                         }
                     />
@@ -85,12 +112,14 @@ const PostForm = ({ userId, userName, refreshPost }) => {
                                     maxRows={6}
                                     placeholder="Type your content here:"
                                     onChange={handleText}
+                                    value={text}
                                 />
                             </div>
                         </Box>}
                         <button className='absolute top-30 right-7 bg-blue-500 border border-blue-600 rounded 
                         hover:bg-blue-600 transition-colors p-1 px-3 text-white'
                             onClick={handleSubmit}
+                            disabled={!text || !title}
                         >Post</button>
                     </CardContent>
                     <CardActions disableSpacing>

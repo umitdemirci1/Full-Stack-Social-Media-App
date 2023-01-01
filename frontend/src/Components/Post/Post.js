@@ -13,6 +13,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { BiCommentDetail } from "react-icons/bi";
 import User from '../User/User';
 import { Link } from 'react-router-dom';
+import Comments from '../Comment/Comment';
 
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
@@ -24,12 +25,38 @@ const ExpandMore = styled((props) => {
     }),
 }));
 
-const Post = ({ text, title, userId, userName }) => {
+const Post = ({ text, title, userId, userName, postId }) => {
 
     const [expanded, setExpanded] = React.useState(false)
     const [like, setLike] = React.useState(false)
+    const [comments, setComments] = React.useState([])
+    const isInitialMount = React.useRef(true)
+
+    const refreshComments = () => {
+        fetch("http://localhost:8080/comments?postId=" + postId)
+            .then(res => res.json())
+            .then(
+                (result) => {
+                    setComments(result)
+                },
+                (error) => {
+                    console.log(error)
+                }
+            )
+    }
+
+    React.useEffect(() => {
+        if (isInitialMount.current) {
+            isInitialMount.current = false;
+        } else {
+            refreshComments()
+        }
+    }, [comments])
+
     const handleExpandClick = () => {
         setExpanded(!expanded);
+        refreshComments()
+        console.log(comments)
     };
 
     const handleLikeClick = () => {
@@ -60,7 +87,6 @@ const Post = ({ text, title, userId, userName }) => {
                             <IconButton aria-label="add to favorites" onClick={handleLikeClick} >
                                 <FavoriteIcon
                                     className={like === true ? 'text-red-600' : 'null'}
-                                    
                                 />
                             </IconButton>
                             <IconButton aria-label="share">
@@ -75,9 +101,13 @@ const Post = ({ text, title, userId, userName }) => {
                             </ExpandMore>
                         </CardActions>
                         <Collapse in={expanded} timeout="auto" unmountOnExit>
-                            <CardContent>
-                                Hello
-                            </CardContent>
+                            {comments.map((comment, index) => (
+                                <Comments key={index}
+                                    userName={userName}
+                                    userId={userId}
+                                    comment={comment.text}>
+                                </Comments>
+                            ))}
                         </Collapse>
                     </Card>
                 </div>

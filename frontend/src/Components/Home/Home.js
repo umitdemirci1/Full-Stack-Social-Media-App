@@ -42,12 +42,16 @@ const Home = () => {
     } else {
         return (
             <>
-                <PostForm userId={"1"} userName={"A"}></PostForm>
+                <PostForm 
+                userId={"1"} 
+                userName={"A"}
+                refreshPost={refreshPost}></PostForm>
                 {posts.map((post) => (
                     <Post 
                     title={post.title} 
                     text={post.text} 
-                    key={post.id} 
+                    postId={post.id} 
+                    key={post.id}
                     userId={post.userId}
                     userName={post.userName}
                     ></Post>
