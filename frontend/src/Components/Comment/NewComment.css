@@ -1,0 +1,95 @@
+.comment {
+    display: flex;
+    align-items: flex-start;
+    margin-left: 15px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.comment .profileImage {
+    margin-top: 10px;
+    border-radius: 50%;
+    background-color: #f44336;
+    width: 40px;
+    height: 40px;
+    color: fff;
+}
+
+.comment .profileImage h2 {
+    width: inherit;
+    height: inherit;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.25em;
+    color: #fff;
+    font-family: sans-serif;
+}
+
+.comment .commentLine {
+    display: flex;
+    align-items: center;
+}
+
+.comment .commentLine .commentLineBox {
+    display: flex;
+}
+
+.comment .commentLine .commentLineBox ::placeholder {
+    opacity: 0;
+    transition: 0.2s;
+}
+
+.comment .commentLine .commentLineBox span {
+    color: black;
+    position: absolute;
+    margin-left: 29px;
+    margin-top: 18px;
+    pointer-events: none;
+    padding: 0 4px 0 4px;
+    transition: 0.2s;
+}
+
+.comment .commentLine .commentLineBox textarea {
+    resize: none;
+    width: 700px;
+    padding: 16.5px 14px;
+    padding-right: 95px;
+    margin-left: 15px;
+    border-radius: 5px;
+    border-width: 2px;
+    border-color: rgb(157, 157, 157);
+    font-weight: 400;
+    line-height: 1.4375em;
+    letter-spacing: 0.00938em;
+}
+
+.comment .commentLine .commentLineBox textarea:focus {
+    outline: none !important;
+    border-color: rgb(22, 90, 199);
+}
+
+.comment .commentLine .commentLineBox textarea:focus::placeholder {
+    opacity: 1 !important;
+    transition: 0.2s;
+}
+
+.comment .commentLine .commentLineBox textarea:focus~span {
+    outline: none !important;
+    color: #3b82f6;
+    transition: 0.2s;
+    transform: translateY(-27px);
+    background-color: #fff;
+    font-size: 0.75em;
+}
+
+.comment .commentLine button {
+    border-radius: 4px;
+    padding: 4px 12px;
+    position: relative;
+    left: -95px;
+    background-color: #3b82f6;
+    border-color: rgb(72, 72, 183);
+    border-width: 0.5px;
+    color: #fff;
+}
